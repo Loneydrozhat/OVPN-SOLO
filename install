@@ -33,7 +33,7 @@ else
 fi
 echo -e "\033[01;31m "
 read -p "DESEJA INICIAR INSTALAÇAO DO OPENVPN-SOLO? (s|n): " solo
-if [ "$solo" = "s"]; then
+if [ "$solo" = "s" ]; then
 clear
 rm /bin/ovpn/ &>/dev/null
 wget -O /bin/ovpn -o /dev/null https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/ovpn
@@ -44,13 +44,13 @@ echo -e "\033[01;32m INICIANDO....."
 sleep 1
 ovpn
 fi
-if [ "$solo" = "n"]; then
+if [ "$solo" = "n" ]; then
 clear
 echo -e "\033[01;31m ABORTADO....."
 sleep 2
 clear
 fi
-if [ "$solo" != "s"]; then
+if [ "$sono" != "s" ]; then
 clear
 echo -e "\033[01;31m ABORTADO....."
 sleep 2
