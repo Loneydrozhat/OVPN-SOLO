@@ -285,7 +285,12 @@ fi
 adm
 exit;;
  0)
+FILE=/bin/adm
+if [ -e "$FILE" ]; then
 adm
+else
+exit
+fi
 exit;;
  5)
 cat /etc/passwd |grep ovpn > /tmp/ovpn
