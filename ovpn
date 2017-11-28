@@ -39,6 +39,28 @@ else
 	exit 5
 fi
 
+#cores#
+_cor0="\033[0m"
+#COLORS BASH
+preto="\033[01;30m"
+vermelho="\033[01;31m"
+verde="\033[01;32m"
+amarelo="\033[01;33m"
+azul="\033[01;34m"
+magenta="\033[01;35m"
+ciano="\033[01;36m"
+branco="\033[01;37m"
+#FUNDOS BASH
+pretof="\033[01;40m"
+vermelhof="\033[01;41m"
+verdef="\033[01;42m"
+amarelof="\033[01;43m"
+azulf="\033[01;44m"
+magentaf="\033[01;45m"
+cianof="\033[01;46m"
+brancof="\033[01;47m"
+#END-COLORS BASH
+
 newclient () {
 	# Generates the custom client.ovpn
 	cp /etc/openvpn/client-common.txt ~/$1.ovpn
@@ -96,13 +118,76 @@ echo -e "\033[1;36m[\033[1;31m1\033[1;36m] CRIAR USUARIO \033[1;30m(CRIA USUARIO
 [\033[1;31m7\033[1;36m] EDITAR CLIENTE GENERICO \033[1;30m(mudar config do cliente gerado)\033[1;36m
 [\033[1;31m8\033[1;36m] MONITOR DE USUARIOS OPENVPN \033[1;30m(Monitor!)\033[1;36m
 [\033[1;31m9\033[1;36m] RECARREGAR SERVIÇOS OVPN\033[1;30m(reiniciar serviços)\033[1;36m
-[\033[1;31m10\033[1;36m] INSTALAR APACHE2 \033[1;30m(SERVIDOR WEB HTTP)\033[1;36m
+[\033[1;31m10\033[1;36m] MENU APACHE2 \033[1;30m (SERVIDOR WEB HTTP)\033[1;36m
 [\033[1;31m0\033[1;36m] VOLTAR \033[1;30m(Menu Adm)\033[0m"
 echo -e "\033[0;35m------------------------------------------------------------\033[0m"
 echo -e "\033[1;36mQUAL E A SUA OPÇAO?\033[0m"
 read -p ": " opcao
 
 case $opcao in
+  10)
+  clear
+  echo -e "$vermelho[$amarelo 1 $vermelho] $verde INSTALAR APACHE2"
+  echo -e "$vermelho[$amarelo 2 $vermelho] $verde DESINSTALAR APACHE2"
+  echo -e "$amarelo"
+  read -p "OPÇAO: [1-2]: " opcapache
+  echo -e "\033[01;0m"
+  case $opcapache in
+  1)
+  pacote=$(dpkg --get-selections | grep apache2  ) 
+if [ -n "$pacote" ] ; then 
+	clear
+	echo -e "$verde APACHE JA ESTA INSTALADOR REMOVENDO E RECONFIGURANDO"
+	apt-get purge apache2 -y &>/dev/null
+	rm -rf /etc/apache2
+	apt-get install apache2 -y 
+	rm /etc/apache2/ports.conf
+	wget -O /etc/apache2/ports.conf -o /dev/null https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/ports.conf
+	rm /var/www/html/index.html &>/dev/null
+	echo -e "$verde REINICIANDO APACHE2"
+	service apache2 restart
+	sleep 2
+	clear
+else
+	clear
+	wget -O /etc/apache2/ports.conf -o /dev/null https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/ports.conf
+	apt-get install apache2 -y &>/dev/null
+	rm /etc/apache2/ports.conf
+	wget -O /etc/apache2/ports.conf -o /dev/null https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/ports.conf
+	echo -e "$verde REINICIANDO APACHE2"
+	service apache2 restart &>/dev/null
+	sleep 2
+	clear
+	read -p "APERTE ENTER PARA CONTINUAR..." enter
+    ovpn
+fi
+;;
+  2)
+  pacote=$(dpkg --get-selections | grep apache2  ) 
+if [ -n "$pacote" ] ; then 
+   clear
+   echo -e "$vermelho REMOVENDO APACHE2 * SERVIDOR WEB * "
+   apt-get purge apache2 -y &>/dev/null
+   apt-get autoremove -y &>/dev/null
+   rm -rf /etc/apache2
+   rm /etc/default/apache2
+   rm /etc/init.d/apache2
+   echo -e "$verde  SERVIDOR WEB REMOVIDO COM SUCESSO"
+   read -p "APERTE ENTER PARA CONTINUAR..." enter
+   ovpn
+else
+   clear
+   echo -e "$amarelo !SERVIDOR WEB NAO INSTALADO... REMOVENDO ARQUIVO DESNECESSARIOS..."
+   rm -rf /etc/apache2
+   rm /etc/default/apache2
+   rm /etc/init.d/apache2
+   echo -e "$verde CONCLUIDO!"
+   read -p "APERTE ENTER PARA CONTINUAR..." enter
+   ovpn
+fi
+;;
+  esac
+;;
   1) 
 echo -e "\033[1;33m"
 echo "NOME DO NOVO USUARIO?"
