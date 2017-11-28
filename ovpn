@@ -864,6 +864,9 @@ echo -e "\033[1;31mNAO FOI IDENTIFICADO PROXY SQUID EM SUA VPS, DESEJA INSTALAR 
 read -p "[s/n] 
 " squiid
 if [ "$squiid" = "s" ]; then
+wget  -O /bin/sq3 -o /dev/null https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/sq3
+chmod +x /bin/sq3
+sleep 1
 sq3
 proxxy="$IP"
 else
