@@ -10,4 +10,4 @@ PAINEL ( OPENVPN ) ( GERENCIADOR ) OPENVPN SOLO....
 <h4>EXECUTE  O COMANDO ABAIXO PARA INCIAR A INSTALAÇAO AUTOMATICA</h4>
 
 <h4>Ubunt: bash <(curl -Ss -L https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/install) </h4>
-<h4>Debian: wget -O install https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/install && sh install
+<h4>Debian: wget -O install https://raw.githubusercontent.com/fenixtm/OVPN-SOLO/master/install && bash install
